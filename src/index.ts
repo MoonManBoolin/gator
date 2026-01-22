@@ -4,6 +4,7 @@ import { handlerLogin } from "./commands/handler_login.js"
 import { register } from "./commands/register_user.js";
 import { resetUsersTable } from "./lib/db/queries/users.js";
 import { getUsers } from "./commands/get_users.js";
+import { agg } from "./commands/aggregate.js";
 
 async function main() {
   const registry: CommandsRegistry = {}
@@ -11,6 +12,7 @@ async function main() {
   registerCommand(registry, "register", register)
   registerCommand(registry, "reset", resetUsersTable)
   registerCommand(registry, "users", getUsers)
+  registerCommand(registry, "agg", agg)
   const cmds = argv.slice(2)
   if (!cmds.length) {
     console.error('Not enough arguments')
