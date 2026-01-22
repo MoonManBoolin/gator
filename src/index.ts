@@ -2,11 +2,13 @@ import { CommandsRegistry, registerCommand, runCommand } from "./commands/comman
 import { argv } from 'node:process';
 import { handlerLogin } from "./commands/handler_login.js"
 import { register } from "./commands/register_user.js";
+import { resetUsersTable } from "./lib/db/queries/users.js";
 
 async function main() {
   const registry: CommandsRegistry = {}
   registerCommand(registry, "login", handlerLogin)
   registerCommand(registry, "register", register)
+  registerCommand(registry, "reset", resetUsersTable)
   const cmds = argv.slice(2)
   if (!cmds.length) {
     console.error('Not enough arguments')
