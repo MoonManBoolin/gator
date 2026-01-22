@@ -1,5 +1,4 @@
-import { setUser, readConfig } from "./config";
-import { CommandsRegistry, CommandHandler, registerCommand, runCommand, handlerLogin } from "./commands_registry";
+import { CommandsRegistry, registerCommand, runCommand, handlerLogin } from "./commands_registry";
 import { argv } from 'node:process';
 
 function main() {
@@ -12,7 +11,6 @@ function main() {
   }
   const cmdName = cmds[0]
   const args = cmds.slice(1)
-  console.log(`Command: ${cmdName}\nArgs: ${args}`)
   runCommand(registry, cmdName, ...args)
 }
 
