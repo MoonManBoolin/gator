@@ -1,3 +1,4 @@
+import { readConfig } from "src/config";
 import { db } from "..";
 import { users } from "../schema";
 import { eq } from "drizzle-orm";
@@ -19,6 +20,21 @@ export async function getUserById(userId: string) {
 export async function getAllUsers() {
     const result = await db.select().from(users)
     return result
+}
+
+export async function getCurrentUser() {
+    const config = readConfig()
+    const users = await getAllUsers()
+    let currentUser;
+    for (const user of users) {
+        if (user.name === config.currentUserName) {
+            currentUser = user
+        }
+    }
+    if (!currentUser) {
+        throw new Error(`Error, couldn't get current user`)
+    }
+    return currentUser
 }
 
 export async function resetUsersTable() {

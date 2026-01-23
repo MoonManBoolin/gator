@@ -1,7 +1,7 @@
 import { db } from "../";
 import { feeds, users } from "../schema";
 import { getUserById } from "./users";
-
+import { eq } from "drizzle-orm";
 
 export async function createFeed(feedName: string, feedUrl: string, userId: string) {
     const [result] = await db.insert(feeds).values({ name: feedName, url: feedUrl, userId }).returning()
@@ -25,6 +25,11 @@ export async function printAllFeeds() {
         console.log(feed.url)
         console.log(userName.name)
     }
+}
+
+export async function feedLookUpByUrl(url: string) {
+    const [feed] = await db.select().from(feeds).where(eq(feeds.url, url))
+    return feed
 }
 
 export type Feed = typeof feeds.$inferSelect;

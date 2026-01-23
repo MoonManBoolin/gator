@@ -7,6 +7,8 @@ import { getUsers } from "./commands/get_users.js";
 import { agg } from "./commands/aggregate.js";
 import { addFeed } from "./commands/addFeed.js";
 import { printAllFeeds } from "./lib/db/queries/feeds.js";
+import { follow } from "./commands/follow.js";
+import { following } from "./commands/following.js";
 
 async function main() {
   const registry: CommandsRegistry = {}
@@ -17,6 +19,8 @@ async function main() {
   registerCommand(registry, "agg", agg)
   registerCommand(registry, "addfeed", addFeed)
   registerCommand(registry, "feeds", printAllFeeds)
+  registerCommand(registry, "follow", follow)
+  registerCommand(registry, "following", following)
   const cmds = argv.slice(2)
   if (!cmds.length) {
     console.error('Not enough arguments')

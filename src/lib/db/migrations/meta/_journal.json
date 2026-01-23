@@ -15,6 +15,13 @@
       "when": 1769127727426,
       "tag": "0001_gorgeous_freak",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1769145401615,
+      "tag": "0002_premium_wolf_cub",
+      "breakpoints": true
     }
   ]
 }
