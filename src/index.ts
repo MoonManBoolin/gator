@@ -10,6 +10,7 @@ import { printAllFeeds } from "./lib/db/queries/feeds.js";
 import { handlerFollow } from "./commands/handler_follow.js";
 import { handlerFollowing } from "./commands/handler_following.js";
 import { middlewareLoggedIn } from "./middleware.js";
+import { handerUnfollow } from "./commands/handler_unfollow.js";
 
 async function main() {
   const registry: CommandsRegistry = {}
@@ -22,6 +23,7 @@ async function main() {
   registerCommand(registry, "addfeed", middlewareLoggedIn(handlerAddFeed))
   registerCommand(registry, "follow", middlewareLoggedIn(handlerFollow))
   registerCommand(registry, "following", middlewareLoggedIn(handlerFollowing))
+  registerCommand(registry, "unfollow", middlewareLoggedIn(handerUnfollow))
   const cmds = argv.slice(2)
   if (!cmds.length) {
     console.error('Not enough arguments')

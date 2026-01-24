@@ -8,6 +8,8 @@ export async function createFeed(feedName: string, feedUrl: string, userId: stri
     return result
 }
 
+
+
 export async function printFeed(feed: Feed, user: User) {
     console.log("Feed ID:", feed.id);
     console.log("Feed Name:", feed.name);
@@ -29,6 +31,9 @@ export async function printAllFeeds() {
 
 export async function feedLookUpByUrl(url: string) {
     const [feed] = await db.select().from(feeds).where(eq(feeds.url, url))
+    if (!feed) {
+        throw new Error(`Couldn't find feed with provided url: ${url}`)
+    }
     return feed
 }
 
