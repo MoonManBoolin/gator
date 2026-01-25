@@ -27,24 +27,24 @@ export async function fetchFeed(feedURL: string) {
             throw new Error(`Description field missing in the channel object`)
         }
         const items = []
-        if (xmlChannel.item === "object") {
+        if (typeof xmlChannel.item === "object" && !Array.isArray(xmlChannel.item)) {
             items.push(xmlChannel.item)
         } else if (Array.isArray(xmlChannel.item)) {
             for (const item of xmlChannel.item) {
                 items.push(item)
             }
         } else {
-            xmlChannel.item = []
+            
         }
         for (const item of items) {
             if (typeof item.title !== "string" || !item.title) {
-                throw new Error(`Title of item field is missing or not a string`)
+                continue
             }
             if (typeof item.link !== "string" || !item.link) {
                 throw new Error(`Link of item field is missing or not a string`)
             }
-            if (typeof item.description !== "string" || !item.link) {
-                throw new Error(`Description of item field is missing or not a string`)
+            if (typeof item.description !== "string" || !item.description) {
+                continue
             }
             if (typeof item.pubDate !== "string" || !item.pubDate) {
                 throw new Error(`PubDate of item field is missing or not a string`)

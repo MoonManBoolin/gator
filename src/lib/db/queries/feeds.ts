@@ -1,14 +1,12 @@
 import { db } from "../";
 import { feeds, users } from "../schema";
 import { getUserById } from "./users";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export async function createFeed(feedName: string, feedUrl: string, userId: string) {
     const [result] = await db.insert(feeds).values({ name: feedName, url: feedUrl, userId }).returning()
     return result
 }
-
-
 
 export async function printFeed(feed: Feed, user: User) {
     console.log("Feed ID:", feed.id);
@@ -35,6 +33,22 @@ export async function feedLookUpByUrl(url: string) {
         throw new Error(`Couldn't find feed with provided url: ${url}`)
     }
     return feed
+}
+
+export async function markFeedFetched(feedId: string) {
+    await db.update(feeds)
+    .set({ lastFetchedAt: new Date() })
+    .where(eq(feeds.id, feedId))
+}
+
+export async function getNextFeedToFetch(): Promise<Feed> {
+    const [nextFeed] = await db.select().from(feeds)
+    .orderBy(sql`${feeds.lastFetchedAt} asc nulls first`)
+    .limit(1)
+    if (!nextFeed) {
+        throw new Error(`Couldn't find next feed to fetch`)
+    }
+    return nextFeed
 }
 
 export type Feed = typeof feeds.$inferSelect;

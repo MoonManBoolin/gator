@@ -1,8 +1,6 @@
 import { deleteFeedFollow } from "src/lib/db/queries/feed-follows";
 import { User } from "src/lib/db/queries/feeds";
 
-
-
 export async function handerUnfollow(_cmdName: string, user: User, ...args: string[]) {
     if (args.length !== 1) {
         throw new Error(`Url not found: ${args[0]}`)

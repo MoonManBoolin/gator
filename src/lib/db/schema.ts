@@ -19,7 +19,8 @@ export const feeds = pgTable("feeds", {
     .$onUpdate(() => new Date()),
   name: text("name").notNull().unique(),
   url: text("url").notNull().unique(),
-  userId: uuid("user_id").notNull()
+  userId: uuid("user_id").notNull(),
+  lastFetchedAt: timestamp("last_fetched_at"),
 }, (table) => [
   foreignKey({
     name: "userIdFk",
