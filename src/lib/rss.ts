@@ -49,6 +49,9 @@ export async function fetchFeed(feedURL: string) {
             if (typeof item.pubDate !== "string" || !item.pubDate) {
                 throw new Error(`PubDate of item field is missing or not a string`)
             }
+            if (typeof item.guid !== "string" || !item.guid) {
+                continue
+            }
         }
 
         const feedObj = {

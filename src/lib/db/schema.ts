@@ -54,3 +54,24 @@ export const feedFollows = pgTable("feed_follows", {
   })
   .onDelete('cascade')
 ])
+
+export const posts = pgTable("posts", {
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
+  publishedAt: timestamp("published_at"),
+  title: text("title"),
+  url: text("url").notNull().unique(),
+  description: text("description"),
+  feedId: uuid("feed_id").notNull()
+}, (table) => [
+  foreignKey({
+    name: "feedFk",
+    columns: [table.feedId],
+    foreignColumns: [feeds.id]
+  })
+  .onDelete("cascade")
+]);

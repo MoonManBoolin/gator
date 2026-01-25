@@ -1,3 +1,4 @@
+import { createPost } from "src/lib/db/queries/posts"
 import { getNextFeedToFetch, markFeedFetched } from "../lib/db/queries/feeds"
 import { fetchFeed } from "../lib/rss"
 
@@ -32,7 +33,8 @@ export async function scrapeFeeds() {
     const fetchedFeeds = await fetchFeed(nextFeed.url)
     console.log(`\nFetching feeds from ${fetchedFeeds.title}\n`)
     for (const feedItem of fetchedFeeds.item) {
-        console.log(feedItem.title)
+        const feedItemPubDateParsed = new Date(feedItem.pubDate)
+        await createPost(nextFeed.id, feedItem.guid || feedItem.link, feedItemPubDateParsed, feedItem.title, feedItem.description)
     }
 }
 

@@ -11,6 +11,7 @@ import { handlerFollow } from "./commands/handler_follow.js";
 import { handlerFollowing } from "./commands/handler_following.js";
 import { middlewareLoggedIn } from "./middleware.js";
 import { handerUnfollow } from "./commands/handler_unfollow.js";
+import { handlerBrowse } from "./commands/handler_browse.js";
 
 async function main() {
   const registry: CommandsRegistry = {}
@@ -24,6 +25,7 @@ async function main() {
   registerCommand(registry, "follow", middlewareLoggedIn(handlerFollow))
   registerCommand(registry, "following", middlewareLoggedIn(handlerFollowing))
   registerCommand(registry, "unfollow", middlewareLoggedIn(handerUnfollow))
+  registerCommand(registry, "browse", middlewareLoggedIn(handlerBrowse))
   const cmds = argv.slice(2)
   if (!cmds.length) {
     console.error('Not enough arguments')
